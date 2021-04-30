@@ -12,14 +12,14 @@ class CallLogs {
     DateTime check = a;
     DateTime now = DateTime.now();
     var cal = now.difference(check);
-    int h = cal.inHours;
+    int hr = cal.inHours;
 
-    int m = cal.inMinutes;
+    int min = cal.inMinutes;
 
-    int s = cal.inSeconds;
+    int sec = cal.inSeconds;
 
     int from = now
-        .subtract(Duration(hours: h, minutes: m, seconds: s))
+        .subtract(Duration(hours: hr, minutes: min, seconds: sec))
         .millisecondsSinceEpoch;
 
     return CallLog.query(
@@ -58,7 +58,7 @@ class CallLogs {
       return entry.name;
   }
 
-  getnumber(CallLogEntry entry) {
+  getNumber(CallLogEntry entry) {
     return entry.number;
   }
 

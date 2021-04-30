@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Focus/Turned_on.dart';
+import 'package:focus_app/Turned_on.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:clay_containers/constants.dart';
 import 'package:clay_containers/widgets/clay_containers.dart';
@@ -89,18 +89,7 @@ class _Mode_screeenState extends State<Mode_screeen>
       updateUI();
     }
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   openPhonelogs() {
-  //     Navigator.push(context,
-  //       MaterialPageRoute(
-  //         builder: (context) => PhonelogsScreen(),
-  //       ),
-  //
-  //     );
-  //   }
-
+  TextEditingController taskController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -112,10 +101,10 @@ class _Mode_screeenState extends State<Mode_screeen>
         child: Container(
           child: Column(
             children: <Widget>[
-              SizedBox(
-                height: 10,
-                width: 20,
-              ),
+              // SizedBox(
+              //   height: 10,
+              //   width: 20,
+              // ),
               Container(
                 padding: EdgeInsets.all(20),
                 alignment: FractionalOffset.topLeft,
@@ -152,16 +141,34 @@ class _Mode_screeenState extends State<Mode_screeen>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(
-                    "What are you going to do:",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.grey,
-                    ),
+                  Expanded(
+                child: TextField(
+                  style: TextStyle(
+                    fontSize: 26
                   ),
+                  controller: taskController,
+                decoration: InputDecoration(
+                  labelText: "Task",
+                  hintText: 'What are you going to do',
+                  hintStyle: TextStyle(
+                    color: Colors.grey,
+                  ),
+
+
+                  isDense: true,
+                  // enabledBorder: new OutlineInputBorder(
+                  //   borderSide:new  BorderSide(width: 1,
+                  //     color: Colors.red,//this has no effect
+                  //   ),
+                  //   borderRadius: BorderRadius.circular(10.0),
+                  // ),
+                ),
+             ),
+              ),
                 ],
               ),
+
+
               Padding(
                   padding: const EdgeInsets.all(80),
                   child: Row(
@@ -213,7 +220,7 @@ class _Mode_screeenState extends State<Mode_screeen>
                                                     Duration(milliseconds: 500),
                                                 pageBuilder: (_, __, ___) =>
                                                     Turned_on(
-                                                        on_time: onTime)));
+                                                        on_time: onTime,task: taskController.text)));
                                       } else {
                                         FlutterDnd.gotoPolicySettings();
                                       }

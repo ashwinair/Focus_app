@@ -34,6 +34,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        multiDexEnabled true
         applicationId "com.ashwin.appF"
         minSdkVersion 21
         targetSdkVersion 28

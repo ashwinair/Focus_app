@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:Focus/screen2.dart';
-import 'package:Focus/sms/f_sms.dart';
+import 'package:focus_app/screen2.dart';
+import 'package:focus_app/sms/f_sms.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:call_log/call_log.dart';
 import 'package:clay_containers/constants.dart';
@@ -25,12 +25,12 @@ import 'misscall/missed_call.dart';
 class Turned_on extends StatefulWidget {
   // ignore: non_constant_identifier_names
   var on_time;
-
+  var task;
   // ignore: non_constant_identifier_names
-  Turned_on({this.on_time});
+  Turned_on({this.on_time, this.task});
 
   @override
-  _Turned_onState createState() => _Turned_onState(on_time: on_time);
+  _Turned_onState createState() => _Turned_onState(on_time: on_time,task:task);
 }
 
 // ignore: camel_case_types
@@ -38,16 +38,19 @@ class _Turned_onState extends State<Turned_on> with WidgetsBindingObserver {
   // ignore: non_constant_identifier_names
   var on_time;
 
-  var userName = "Ashwin"; //enter your name
-  var task = "Finishing Focus app"; //enter your task
+  var task;
+
+
 
   // ignore: non_constant_identifier_names
   _Turned_onState(
       // ignore: non_constant_identifier_names
-      {this.on_time}); //getting turn on time of the app to retrieve call logs
+      {this.on_time, this.task}); //getting turn on time of the app to retrieve call logs &task
 
   Future<Iterable<CallLogEntry>> log;
 
+  var userName = "Ashwin"; //enter your name
+  // var task = this.task; //enter your task
   Sms sms = new Sms();
   SmsQuery query = new SmsQuery();
 
@@ -67,11 +70,11 @@ class _Turned_onState extends State<Turned_on> with WidgetsBindingObserver {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    log = cl.getCallLogs(on_time);
+
     streamSubscription =
         phoneStateCallEvent.listen((PhoneStateCallEvent event) async {
       print('Call is Incoming or Connected(turn on screen)' + event.stateC);
-
+      log = cl.getCallLogs(on_time);
       //event.stateC has values "true" or "false"
     });
   }
@@ -128,7 +131,7 @@ class _Turned_onState extends State<Turned_on> with WidgetsBindingObserver {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         Iterable<CallLogEntry> entries = snapshot.data;
-
+                        int firstPerson =0;
                         var count = entries.length;
                         // ignore: non_constant_identifier_names
                         var Lcall;
@@ -139,25 +142,23 @@ class _Turned_onState extends State<Turned_on> with WidgetsBindingObserver {
                           map = {cl.smsName(entries.elementAt(0))};
                           Lcall = map.join(" ");
                         }
+                        var time =DateTime.fromMillisecondsSinceEpoch(
+                            entries.elementAt(firstPerson).timestamp);
+                            DateTime now = DateTime.now();
+                        var callTime = now.difference(time);
+                            print(callTime);
+                        var num = cl.getNumber(entries.elementAt(firstPerson));
+                        String receiverName = cl.smsName(entries.elementAt(firstPerson));
+                          if(callTime.inSeconds<30){
+                            if (receiverName.toLowerCase() == "akku" || receiverName.toLowerCase() == "a" ) {
+                                say(receiverName, " is trying to reach you");
 
-                        for (int i = 0; i < entries.length; i++) {
-                          if (i == 0) {
-                            var num = cl.getnumber(entries.elementAt(i));
-                            var senderName = cl.smsName(entries.elementAt(i));
-                            if (senderName == "Akku") {
-                              say(senderName, " is trying to reach you");
-                            } else {
-                              sms.sendSMS(num, senderName, userName, task);
-                              print(senderName.toString().split(" ").first);
+                            }else {
+
+                                  sms.sendSMS(num, receiverName, userName, task);
+                                  print(receiverName.toString().split(" ").first);
                             }
-                          } else {
-                            print(cl.getname(entries.elementAt(i)));
-                            print(cl.getnumber(entries.elementAt(i)));
                           }
-                          // var name = cl.smsName(entries.elementAt(i));
-                          // print(name.toString().split(" ").first);
-
-                        }
 
                         return SafeArea(
                           child: Column(
@@ -366,7 +367,12 @@ class _Turned_onState extends State<Turned_on> with WidgetsBindingObserver {
                         // sms();
 
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Container(child: Column(
+                          children: [
+                            SizedBox(height:150),
+                            Center(child: Text("Waiting for data",style: TextStyle(color:Colors.white38,fontSize: 40),)),
+                          ],
+                        ));
                       }
                     }),
               ],

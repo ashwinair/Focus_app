@@ -40,7 +40,10 @@ class _PhonelogsScreenState extends State<PhonelogsScreen>
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    logs = cl.getCallLogs(on_time);
+    // logs = cl.getCallLogs(on_time);
+    setState(() {
+      logs = cl.getCallLogs(on_time);
+    });
   }
 
   @override
@@ -54,10 +57,8 @@ class _PhonelogsScreenState extends State<PhonelogsScreen>
     // TODO: implement didChangeAppLifecycleState
     super.didChangeAppLifecycleState(state);
 
-    if (AppLifecycleState.resumed == state) {
-      setState(() {
-        logs = cl.getCallLogs(on_time);
-      });
+    if (AppLifecycleState.inactive == state) {
+
     }
   }
 
@@ -79,7 +80,7 @@ class _PhonelogsScreenState extends State<PhonelogsScreen>
       ),
       body: Column(
         children: [
-          //TextField(controller: t1, decoration: InputDecoration(labelText: "Phone number", contentPadding: EdgeInsets.all(10), suffixIcon: IconButton(icon: Icon(Icons.phone), onPressed: (){print("pressed");})),keyboardType: TextInputType.phone, textInputAction: TextInputAction.done, onSubmitted: (value) => call(value),),
+
           FutureBuilder(
               future: logs,
               builder: (context, snapshot) {

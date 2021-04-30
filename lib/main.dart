@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:Focus/screen2.dart';
+import 'package:focus_app/screen2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dnd/flutter_dnd.dart';
 import 'package:oktoast/oktoast.dart';
@@ -9,6 +9,7 @@ import 'package:phone_state_i/phone_state_i.dart';
 
 import 'misscall/log_screen.dart';
 import 'misscall/missed_call.dart';
+import 'screen2.dart';
 
 void main() {
   runApp(MyApp());

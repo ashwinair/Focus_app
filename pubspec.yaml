@@ -1,4 +1,4 @@
-name: Focus
+name: focus_app
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -20,12 +20,14 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+module:
+  androidX: true
 dependencies:
   flutter:
     sdk: flutter
   flutter_dnd:
   phone_state_i: ^0.0.3
-  call_log:
+  call_log: ^2.2.0
   permission_handler: ^5.0.1+1
   flutter_phone_direct_caller:
   oktoast:
@@ -39,7 +41,7 @@ dependencies:
   wakelock:
   sqflite:
   path_provider:
-
+  flutter_svg: ^0.20.0-nullsafety.3
 
 
   # The following adds the Cupertino Icons font to your application.

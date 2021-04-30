@@ -9,24 +9,24 @@ class Sms {
 
   // List messages = new List();
 
-  sendSMS(address, senderName, userName, task) async {
+  sendSMS(address, receiverName, userName, task) async {
     //the message goes here...
     sender.sendSms(new SmsMessage(
         address,
-        "Hey! $senderName , $userName is $task ."
+        "Hey! $receiverName , $userName is $task ."
         "He will call you back after some time. :) \n If its urgent type: Urgent \n -Focus(Ash)",
         read: true));
 
     print(address);
-    print(senderName);
+    print(receiverName);
 
     receiver.onSmsReceived.listen((SmsMessage msg) {
       if (msg.body.toLowerCase() == "urgent") {
-        say(senderName, " is saying its urgent");
+        say(receiverName, " is saying its urgent");
 
         sender.sendSms(new SmsMessage(
             address,
-            "Ok $senderName , $userName is saying he will call you in 5 minutes."
+            "Ok $receiverName , $userName is saying he will call you in 5 minutes."
             "\n-Focus(Ash)",
             read: true));
       }
